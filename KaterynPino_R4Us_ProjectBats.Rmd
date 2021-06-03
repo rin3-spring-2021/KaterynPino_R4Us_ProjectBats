@@ -1,0 +1,93 @@
+---
+title: "KaterynPino-R4Us-ProjectBats"
+author: "Kateryn Pino"
+date: "03/06/2021"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE, include=FALSE}
+
+library(tidyverse)
+library(skimr)
+library(janitor)
+library(hrbrthemes)
+library(ggtext)
+library(ragg) 
+library(systemfonts)
+library(extrafont)
+# loadfonts() I am working on windows so I am using those to be sure everything is working on
+# fonts()
+```
+
+
+# Presentation
+
+This report presents the preliminary results of the summer study to assess the bat community's richness and activity in the area of influence of the project *Parque Eólico San Rafael, Región del Maule* Region VII in Central Chile.
+
+
+# Introduction
+
+Bats represent approximately 20% of all mammal species globally (Colin 2000), being the second most rich mammals order after Rodentia. They are characterized as the only truly flying mammals (Findley 1993). For this travel mode, they present a series of adaptations in their internal and external anatomy while maintaining the mammalian diagnostic characteristics (e.g., mammary glands, hair, three bones in the middle ear, among others). The abundance of bats in Chile, as in the rest of mammals in general, is low. Together with Uruguay, they belong to South American countries with the lowest number of bat species. In Chile, bats represent the fourth-order with the highest number of species, being overtaken by Carnivora (25 species), Cetacea (42 species), and Rodentia (68 species).  The percentage of endemism is similarly low in mammals, being reduced to zero in bats (Iriarte 2008). This pattern is in stark contrast to the high levels of diversity observed in neighboring countries. The decrease in mammal diversity can be explained by the reduced land area (compared to the rest of the neighboring countries), climatic heterogeneity, and critical natural barriers, which can negatively influence the diversity of mainly terrestrial species (Palma, 2007).
+
+Since establishing the new environmental regulations, bat fauna has been considered a relevant element in the Environmental Impact Assessment. Even more in projects with potential detrimental to this faunal element, such as wind turbines. Recent literature points out that bats would be affected by wind turbines due to their directional echolocation system, which would prevent them from detecting a moving blade. Even more, edges don't need to hit bats directly, but they could cause barotrauma because of them. Additionally, certain bats species may feel attraction for wind turbines because they consider them a potential refuge (Kuntz et al., 2007; Horn et al., 2008; Escobar et al., 2015).
+
+
+
+
+```{r, include = TRUE}
+Batactivity <- read_csv("data/DataBase.csv", 
+                        col_types = list(Hour_activity = col_character())) %>% 
+  clean_names()
+
+Batactivity <- Batactivity %>% 
+  mutate(watercourses =as.logical(watercourses))
+
+skim(Batactivity)
+
+```
+
+```{r, include = TRUE, echo=FALSE, warning=FALSE}
+Batactivity <- Batactivity %>% 
+  rename(hour_activity_fct = hour_activity) %>% 
+  mutate(hour_activity_int = as.integer(hour_activity_fct)) %>% 
+  mutate(hour_activity_fct = fct_reorder(hour_activity_fct, hour_activity_int))
+
+theme_bat <- function() {
+  theme_ipsum(base_family = "Papyrus") +
+  theme(axis.title = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.title = element_markdown(face="bold"))
+}
+
+ggplot(data=Batactivity,
+       mapping = aes(x = hour_activity_fct,
+                     y = bat_passes_number)) +
+  geom_violin(show.legend = FALSE,
+              color="#4A738D",
+              fill = "#4A738D",
+              alpha=0.5) +
+  geom_jitter(alpha=0.7, show.legend = FALSE,
+              color = "#4A738D") +
+  scale_y_continuous(limits = c(0,15),
+                     breaks = seq(from=0, to=15, by=3)) +
+  labs(title = "<span style = 'color:#4A738D'>Bat activity</span> per hour at night",
+       x="Hour at night",
+       y= "Bat activity (passes number)") +
+   
+  theme_bat()
+```
+
+```{r}
+ggsave(filename = "plots/bat-activity-plot.pdf",
+       device = cairo_pdf,
+       height = 8,
+       width = 11)
+
+```
+
