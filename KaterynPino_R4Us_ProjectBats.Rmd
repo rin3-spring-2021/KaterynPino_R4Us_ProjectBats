@@ -2,12 +2,18 @@
 title: "KaterynPino-R4Us-ProjectBats"
 author: "Kateryn Pino"
 date: "03/06/2021"
-output: html_document
-
+output: 
+  xaringan::moon_reader:
+    css: [rladies, rladies-fonts]
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      cache = TRUE)
 ```
 
 
@@ -30,14 +36,13 @@ library(extrafont)
 
 This report presents the preliminary results of the summer study to assess the bat community's richness and activity in the area of influence of the project *Parque Eólico San Rafael, Región del Maule* Region VII in Central Chile.
 
+---
 
 # Introduction
 
-Bats represent approximately 20% of all mammal species globally (Colin 2000), being the second most rich mammals order after Rodentia. They are characterized as the only truly flying mammals (Findley 1993). For this travel mode, they present a series of adaptations in their internal and external anatomy while maintaining the mammalian diagnostic characteristics (e.g., mammary glands, hair, three bones in the middle ear, among others). The abundance of bats in Chile, as in the rest of mammals in general, is low. Together with Uruguay, they belong to South American countries with the lowest number of bat species. In Chile, bats represent the fourth-order with the highest number of species, being overtaken by Carnivora (25 species), Cetacea (42 species), and Rodentia (68 species).  The percentage of endemism is similarly low in mammals, being reduced to zero in bats (Iriarte 2008). This pattern is in stark contrast to the high levels of diversity observed in neighboring countries. The decrease in mammal diversity can be explained by the reduced land area (compared to the rest of the neighboring countries), climatic heterogeneity, and critical natural barriers, which can negatively influence the diversity of mainly terrestrial species (Palma, 2007).
-
 Since establishing the new environmental regulations, bat fauna has been considered a relevant element in the Environmental Impact Assessment. Even more in projects with potential detrimental to this faunal element, such as wind turbines. Recent literature points out that bats would be affected by wind turbines due to their directional echolocation system, which would prevent them from detecting a moving blade. Even more, edges don't need to hit bats directly, but they could cause barotrauma because of them. Additionally, certain bats species may feel attraction for wind turbines because they consider them a potential refuge (Kuntz et al., 2007; Horn et al., 2008; Escobar et al., 2015).
 
-
+---
 
 
 ```{r, include = TRUE}
@@ -46,11 +51,11 @@ Batactivity <- read_csv("data/DataBase.csv",
   clean_names()
 
 Batactivity <- Batactivity %>% 
-  mutate(watercourses =as.logical(watercourses))
-
-skim(Batactivity)
-
+  mutate(watercourses = as.logical(watercourses)) 
+  
+  
 ```
+
 
 ```{r, include = TRUE, echo=FALSE, warning=FALSE}
 Batactivity <- Batactivity %>% 
@@ -84,10 +89,10 @@ ggplot(data=Batactivity,
 ```
 
 ```{r}
-ggsave(filename = "plots/bat-activity-plot.pdf",
-       device = cairo_pdf,
-       height = 8,
-       width = 11)
+# ggsave(filename = "plots/bat-activity-plot.pdf",
+       # device = cairo_pdf,
+       # height = 8,
+       # width = 11)
 
 ```
 
