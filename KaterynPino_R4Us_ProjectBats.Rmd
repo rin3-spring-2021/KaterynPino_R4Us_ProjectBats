@@ -27,7 +27,7 @@ library(ggtext)
 library(ragg) 
 library(systemfonts)
 library(extrafont)
-loadfonts() #I am working on windows so I am using those to be sure everything is working on
+# loadfonts() #I am working on windows so I am using those to be sure everything is working on
 # fonts()
 ```
 
@@ -47,6 +47,25 @@ class: left, middle
 Since establishing the new environmental regulations, bat fauna has been considered a relevant element in the Environmental Impact Assessment. Even more in projects with potential detrimental to this faunal element, such as wind turbines. Recent literature points out that bats would be affected by wind turbines due to their directional echolocation system, which would prevent them from detecting a moving blade. Even more, edges don't need to hit bats directly, but they could cause barotrauma because of them. Additionally, certain bats species may feel attraction for wind turbines because they consider them a potential refuge (Kuntz et al., 2007; Horn et al., 2008; Escobar et al., 2015).]
 
 ---
+
+## General objetive
+
+Characterize the bat community present in the area of the "San Nicolás Wind Farm" project.
+
+## Specific objetives
+
+1.- Describe the habitat elements of the project area that allow us to adequately characterize the bat community present in the project area. 
+
+2.- Identify landscape elements that constitute relevant habitats (e.g. refuges, foraging sites) for the bats species present in the project area.
+
+3.- Estimate the richness, frequency and activity of bats present in each of the sampling sites. 
+
+4.- Evaluate the relationship between bat activity and climatic variables and habitat types characterized in the project area.  
+
+
+---
+
+
 
 
 ```{r, include = TRUE}
@@ -92,7 +111,7 @@ gg_bat_activity <- ggplot(data=Bat_hour_activity,
   theme_bat()
 ```
 
-```{r, out.width='450', fig.align='center'}
+```{r, out.width='700', fig.align='center'}
 ggsave(filename = "plots/bat-activity-plot.png",
        gg_bat_activity,
        height = 4,
@@ -100,6 +119,8 @@ ggsave(filename = "plots/bat-activity-plot.png",
 knitr::include_graphics("plots/bat-activity-plot.png")
 
 ```
+
+---
 
 ```{r}
 Bat_vegetation_activity <- Batactivity %>% 
@@ -129,7 +150,7 @@ gg_bat_vegetation <- ggplot(data=Bat_vegetation_activity,
 ```
 
 
-```{r, out.width='450', fig.align='center'}
+```{r, out.width='700', fig.align='center'}
 ggsave(filename = "plots/bat-vegetation-plot.png",
        gg_bat_vegetation,
        height = 4,
